@@ -1,6 +1,6 @@
 Package.describe({
   name: 'clinical:hl7-resource-endpoint',
-  version: '3.0.1',
+  version: '3.0.2',
   summary: 'HL7 FHIR Resource - Endpoint',
   git: 'https://github.com/clinical-meteor/hl7-resource-endpoint',
   documentation: 'README.md'
@@ -25,7 +25,6 @@ Package.onUse(function (api) {
   api.use('clinical:hl7-resource-bundle@1.3.10');
 
   api.use('simple:json-routes@2.1.0');
-  api.use('clinical:fhir-vault-server@0.0.3', ['client', 'server'], {weak: true});
 
   api.addFiles('lib/Endpoints.js');
   api.addFiles('server/rest.js', 'server');
