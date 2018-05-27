@@ -1,4 +1,4 @@
-import { CardText, CardTitle } from 'material-ui/Card';
+import { CardText, CardTitle, CardActions } from 'material-ui/Card';
 import { Tab, Tabs } from 'material-ui/Tabs';
 import { GlassCard, Glass, VerticalCanvas, FullPageCanvas } from 'meteor/clinical:glass-ui';
 
@@ -65,7 +65,24 @@ export class EndpointsPage extends React.Component {
     Session.set('selectedEndpoint', false);
     Session.set('endpointUpsert', false);
   }
-
+  initSixNodes(){
+    Meteor.call('initSixNodes')
+  }
+  initTwelveNodes(){
+    Meteor.call('initTwelveNodes')    
+  }
+  initEpicNodes(){
+    Meteor.call('initEpicNodes')    
+  }
+  initMedicareHospitalodes(){
+    Meteor.call('initMedicareHospitalodes')    
+  }
+  initChicagoHospitalNodes(){ 
+    Meteor.call('initChicagoHospitalNodes')       
+  }
+  initAppleHealthkitNodes(){
+    Meteor.call('initAppleHealthkitNodes')    
+  }
   render() {
     console.log('React.version: ' + React.version);
     return (
@@ -77,14 +94,27 @@ export class EndpointsPage extends React.Component {
             />
             <CardText>
               <Tabs id='endpointsPageTabs' default value={this.data.tabIndex} onChange={this.handleTabChange} initialSelectedIndex={1}>
-                 <Tab className="newEndpointTab" label='New' style={this.data.style.tab} onActive={ this.onNewTab } value={0}>
-                   <EndpointDetail id='newEndpoint' />
+                 <Tab className="newEndpointTab" label='Initialize' style={this.data.style.tab} onActive={ this.onNewTab } value={0}>
+                  <CardText>
+                    <RaisedButton label="6 Nodes" onClick={this.handleDeleteButton.bind(this)} />
+                    <RaisedButton label="12 Nodes" onClick={this.handleDeleteButton.bind(this)} />
+                    <RaisedButton label="Epic Nodes" onClick={this.handleDeleteButton.bind(this)} />
+                    <RaisedButton label="Medicare Hospital Nodes" onClick={this.handleDeleteButton.bind(this)} />
+                    <RaisedButton label="Chicago Hospital Nodes" onClick={this.handleDeleteButton.bind(this)} />
+                    <RaisedButton label="Apple HealthKit Nodes" onClick={this.handleDeleteButton.bind(this)} />
+                    {/* - 6o<br/>
+                    - 12o<br/>
+                    - 28o<br/>
+                    - 29o<br/>
+                    - 30o<br/>
+                    - 31o <br/>
+                    - 110o <br/>
+                    - 365o <br/>
+                    - 5174o <br/> */}
+                  </CardText>
                  </Tab>
                  <Tab className="endpointListTab" label='Endpoints' onActive={this.handleActive} style={this.data.style.tab} value={1}>
                    <EndpointTable showBarcodes={true} />
-                 </Tab>
-                 <Tab className="endpointDetailTab" label='Detail' onActive={this.handleActive} style={this.data.style.tab} value={2}>
-                   <EndpointDetail id='endpointDetails' currentEndpoint={this.data.currentEndpoint} />
                  </Tab>
              </Tabs>
 

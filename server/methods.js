@@ -1,7 +1,101 @@
 
 
+
+
+
+
 Meteor.methods({
-  createEndpoint:function(endpointData){
+  initSixNodes: function(){
+    console.log('initSixNodes')
+    var defaultEndpoints = [];
+
+    for (let index = 0; index < 6; index++) {
+      defaultEndpoints.push({
+        "OrganizationName": index,
+        "FHIRPatientFacingURI": ""
+      })      
+    }
+    defaultEndpoints.forEach(function(endpoint){
+      Meteor.call('createEndpoint', endpoint);
+    })
+  },
+  initTwelveNodes: function(){
+    console.log('initTwelveNodes')
+    var defaultEndpoints = [];
+
+    for (let index = 0; index < 12; index++) {
+      defaultEndpoints.push({
+        "OrganizationName": index,
+        "FHIRPatientFacingURI": ""
+      })      
+    }
+    defaultEndpoints.forEach(function(endpoint){
+      Meteor.call('createEndpoint', endpoint);
+    })
+
+  },
+  initEpicNodes: function(){
+    console.log('initEpicNodes')
+    var defaultEndpoints = [];
+
+    for (let index = 0; index < 110; index++) {
+      defaultEndpoints.push({
+        "OrganizationName": index,
+        "FHIRPatientFacingURI": ""
+      })      
+    }
+    defaultEndpoints.forEach(function(endpoint){
+      Meteor.call('createEndpoint', endpoint);
+    })
+
+  },
+  initMedicareHospitalodes: function(){
+    console.log('initMedicareHospitalodes')
+    var defaultEndpoints = [];
+
+    for (let index = 0; index < 5174; index++) {
+      defaultEndpoints.push({
+        "OrganizationName": index,
+        "FHIRPatientFacingURI": ""
+      })      
+    }
+    defaultEndpoints.forEach(function(endpoint){
+      Meteor.call('createEndpoint', endpoint);
+    })
+
+  },
+  initChicagoHospitalNodes: function(){ 
+    console.log('initChicagoHospitalNodes')
+    var defaultEndpoints = [];
+
+    for (let index = 0; index < 100; index++) {
+      defaultEndpoints.push({
+        "OrganizationName": index,
+        "FHIRPatientFacingURI": ""
+      })      
+    }
+    defaultEndpoints.forEach(function(endpoint){
+      Meteor.call('createEndpoint', endpoint);
+    })
+
+  },
+  initAppleHealthkitNodes: function(){
+    console.log('initAppleHealthkitNodes')
+    var defaultEndpoints = [];
+
+    for (let index = 0; index < 300; index++) {
+      defaultEndpoints.push({
+        "OrganizationName": index,
+        "FHIRPatientFacingURI": ""
+      })      
+    }
+    defaultEndpoints.forEach(function(endpoint){
+      Meteor.call('createEndpoint', endpoint);
+    })
+
+  },
+  createEndpoint: function(endpointData){
+    console.log('createEndpoint')
     check(endpointData, Object);
 
     var newEndpoint = {
@@ -14,7 +108,7 @@ Meteor.methods({
       address: endpointData.FHIRPatientFacingURI
     }
 
-    if (process.env.NODE_ENV === 'test') {
+    // if (process.env.NODE_ENV === 'test') {
       console.log('Creating Endpoint...');
       Endpoints.insert(newEndpoint, function(error, result){
         if (error) {
@@ -24,12 +118,13 @@ Meteor.methods({
           console.log('Endpoint created: ' + result);
         }
       });
-    } else {
-      console.log('This command can only be run in a test environment.');
-      console.log('Try setting NODE_ENV=test');
-    }
+    // } else {
+    //   console.log('This command can only be run in a test environment.');
+    //   console.log('Try setting NODE_ENV=test');
+    // }
   },
-  initializeEndpoint:function(){
+  initializeEndpoint: function(){
+    console.log('initializeEndpoint')
     if (Endpoints.find().count() === 0) {
       console.log("No records found in Endpoints collection.  Lets create some...");
 
@@ -501,15 +596,15 @@ Meteor.methods({
     }
   },
   dropEndpoints: function(){
-    if (process.env.NODE_ENV === 'test') {
+    // if (process.env.NODE_ENV === 'test') {
       console.log('-----------------------------------------');
       console.log('Dropping endpoints... ');
       Endpoints.find().forEach(function(endpoint){
         Endpoints.remove({_id: endpoint._id});
       });
-    } else {
-      console.log('This command can only be run in a test environment.');
-      console.log('Try setting NODE_ENV=test');
-    }
+    // } else {
+    //   console.log('This command can only be run in a test environment.');
+    //   console.log('Try setting NODE_ENV=test');
+    // }
   }
 });
