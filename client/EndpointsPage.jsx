@@ -1,13 +1,14 @@
-import { CardText, CardTitle, CardActions } from 'material-ui/Card';
-import { Tab, Tabs } from 'material-ui/Tabs';
-import { GlassCard, Glass, VerticalCanvas, FullPageCanvas } from 'meteor/clinical:glass-ui';
+import { CardText, CardTitle, CardActions, Tab, Tabs, RaisedButton } from 'material-ui';
+import { GlassCard, Glass, VerticalCanvas } from 'meteor/clinical:glass-ui';
 
 import EndpointDetail from './EndpointDetail';
 import EndpointTable from './EndpointsTable';
+
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
 
+import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 
@@ -65,26 +66,44 @@ export class EndpointsPage extends React.Component {
     Session.set('selectedEndpoint', false);
     Session.set('endpointUpsert', false);
   }
-  initSixNodes(){
-    Meteor.call('initSixNodes')
-  }
-  initTwelveNodes(){
-    Meteor.call('initTwelveNodes')    
-  }
-  initEpicNodes(){
-    Meteor.call('initEpicNodes')    
-  }
-  initMedicareHospitalodes(){
-    Meteor.call('initMedicareHospitalodes')    
-  }
-  initChicagoHospitalNodes(){ 
-    Meteor.call('initChicagoHospitalNodes')       
-  }
-  initAppleHealthkitNodes(){
-    Meteor.call('initAppleHealthkitNodes')    
-  }
+  // initSixNodes(){
+  //   Meteor.call('initSixNodes')
+  //   Meteor.setTimeout(function(){
+  //     Session.set('endpointPageTabIndex', 1);
+  //   }, 500)
+  // }
+  // initTwelveNodes(){
+  //   Meteor.call('initTwelveNodes')    
+  //   Meteor.setTimeout(function(){
+  //     Session.set('endpointPageTabIndex', 1);
+  //   }, 500)
+  // }
+  // initEpicNodes(){
+  //   Meteor.call('initEpicNodes')    
+  //   Meteor.setTimeout(function(){      
+  //     Session.set('endpointPageTabIndex', 1);
+  //   }, 500)
+  // }
+  // initMedicareHospitalNodes(){
+  //   Meteor.call('initMedicareHospitalNodes')    
+  //   Meteor.setTimeout(function(){
+  //     Session.set('endpointPageTabIndex', 1);
+  //   }, 500)
+  // }
+  // initChicagoHospitalNodes(){ 
+  //   Meteor.call('initChicagoHospitalNodes')       
+  //   Meteor.setTimeout(function(){
+  //     Session.set('endpointPageTabIndex', 1);
+  //   }, 500)
+  // }
+  // initAppleHealthkitNodes(){
+  //   Meteor.call('initAppleHealthkitNodes')    
+  //   Meteor.setTimeout(function(){
+  //     Session.set('endpointPageTabIndex', 1);
+  //   }, 500)
+  // }
   render() {
-    console.log('React.version: ' + React.version);
+    //console.log('React.version: ' + React.version);
     return (
       <div id="endpointsPage">
         <VerticalCanvas>
@@ -95,23 +114,14 @@ export class EndpointsPage extends React.Component {
             <CardText>
               <Tabs id='endpointsPageTabs' default value={this.data.tabIndex} onChange={this.handleTabChange} initialSelectedIndex={1}>
                  <Tab className="newEndpointTab" label='Initialize' style={this.data.style.tab} onActive={ this.onNewTab } value={0}>
-                  <CardText>
-                    <RaisedButton label="6 Nodes" onClick={this.handleDeleteButton.bind(this)} />
-                    <RaisedButton label="12 Nodes" onClick={this.handleDeleteButton.bind(this)} />
-                    <RaisedButton label="Epic Nodes" onClick={this.handleDeleteButton.bind(this)} />
-                    <RaisedButton label="Medicare Hospital Nodes" onClick={this.handleDeleteButton.bind(this)} />
-                    <RaisedButton label="Chicago Hospital Nodes" onClick={this.handleDeleteButton.bind(this)} />
-                    <RaisedButton label="Apple HealthKit Nodes" onClick={this.handleDeleteButton.bind(this)} />
-                    {/* - 6o<br/>
-                    - 12o<br/>
-                    - 28o<br/>
-                    - 29o<br/>
-                    - 30o<br/>
-                    - 31o <br/>
-                    - 110o <br/>
-                    - 365o <br/>
-                    - 5174o <br/> */}
-                  </CardText>
+                  {/* <CardText>
+                    <RaisedButton primary={true} label="6 Nodes" onClick={this.initSixNodes } style={{width: '256px'}} /><br /><br />
+                    <RaisedButton primary={true} label="12 Nodes" onClick={this.initTwelveNodes } style={{width: '256px'}} /><br /><br />
+                    <RaisedButton primary={true} label="Epic Nodes" onClick={this.initEpicNodes } style={{width: '256px'}} /><br /><br />
+                    <RaisedButton primary={true} label="Medicare Hospital Nodes" onClick={this.initMedicareHospitalNodes } style={{width: '256px'}} /><br /><br />
+                    <RaisedButton primary={true} label="Chicago Hospital Nodes" onClick={this.initChicagoHospitalNodes } style={{width: '256px'}} /><br /><br />
+                    <RaisedButton primary={true} label="Apple HealthKit Nodes" onClick={this.initAppleHealthkitNodes } style={{width: '256px'}} /><br /><br />
+                  </CardText> */}
                  </Tab>
                  <Tab className="endpointListTab" label='Endpoints' onActive={this.handleActive} style={this.data.style.tab} value={1}>
                    <EndpointTable showBarcodes={true} />

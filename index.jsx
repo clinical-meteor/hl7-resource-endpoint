@@ -2,8 +2,6 @@
 import EndpointsPage from './client/EndpointsPage';
 import EndpointsTable from './client/EndpointsTable';
 
-import { Endpoint, Endpoints, EndpointSchema } from './lib/Endpoints';
-
 var DynamicRoutes = [{
   'name': 'EndpointPage',
   'path': '/endpoints',

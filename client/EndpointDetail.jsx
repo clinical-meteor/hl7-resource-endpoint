@@ -45,7 +45,7 @@ let defaultEndpoint = {
 Session.setDefault('endpointUpsert', false);
 Session.setDefault('selectedEndpoint', false);
 
-export default class EndpointDetail extends React.Component {
+export class EndpointDetail extends React.Component {
   getMeteorData() {
     let data = {
       endpointId: false,
@@ -273,3 +273,4 @@ export default class EndpointDetail extends React.Component {
 
 
 ReactMixin(EndpointDetail.prototype, ReactMeteorData);
+export default EndpointDetail;
