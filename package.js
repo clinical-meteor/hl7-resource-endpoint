@@ -1,6 +1,6 @@
 Package.describe({
   name: 'clinical:hl7-resource-endpoint',
-  version: '3.1.0',
+  version: '3.1.1',
   summary: 'HL7 FHIR Resource - Endpoint',
   git: 'https://github.com/clinical-meteor/hl7-resource-endpoint',
   documentation: 'README.md'
