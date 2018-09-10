@@ -1,6 +1,6 @@
 Package.describe({
   name: 'clinical:hl7-resource-endpoint',
-  version: '3.1.1',
+  version: '3.1.2',
   summary: 'HL7 FHIR Resource - Endpoint',
   git: 'https://github.com/clinical-meteor/hl7-resource-endpoint',
   documentation: 'README.md'
@@ -44,5 +44,7 @@ Package.onUse(function (api) {
 
 
 Npm.depends({
-  "simpl-schema": "1.5.3"
+  "simpl-schema": "1.5.3",
+  "moment": "2.22.2",
+  "lodash": "4.17.4"
 })
