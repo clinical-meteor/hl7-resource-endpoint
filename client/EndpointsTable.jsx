@@ -1,5 +1,4 @@
-import Avatar from 'material-ui/Avatar';
-import FlatButton from 'material-ui/FlatButton';
+import { FlatButton, Toggle } from 'material-ui';
 import { HTTP } from 'meteor/http';
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
@@ -80,6 +79,9 @@ export class EndpointTable extends React.Component {
     Session.set('selectedEndpoint', id);
     Session.set('subscriptionPageTabIndex', 2);
   }
+  toggleEndpointStatus(){
+    console.log('toggleEndpointStatus')
+  }
   render () {
     let tableRows = [];
     let footer;
@@ -96,7 +98,9 @@ export class EndpointTable extends React.Component {
         tableRows.push(
           <tr key={i} className="subscriptionRow" style={{cursor: "pointer"}}>
   
-            <td className='status' onClick={ this.rowClick.bind('this', this.data.endpoint[i]._id)} style={this.data.style.cell}>{this.data.endpoint[i].status}</td>
+            <td className='status' style={this.data.style.cell}>
+              <Toggle onToggle={this.toggleEndpointStatus.bind(this, this.data.endpoint[i]._id) } toggled={get(this, 'data.endpoint[i].status')} />
+            </td>
             <td className='name' onClick={ this.rowClick.bind('this', this.data.endpoint[i]._id)} style={this.data.style.cell} >{this.data.endpoint[i].name }</td>
             <td className='address' onClick={ this.rowClick.bind('this', this.data.endpoint[i]._id)} style={this.data.style.cell} >{this.data.endpoint[i].address}</td>
           </tr>

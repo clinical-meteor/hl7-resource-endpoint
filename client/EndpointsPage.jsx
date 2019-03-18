@@ -104,6 +104,19 @@ export class EndpointsPage extends React.Component {
   // }
   render() {
     //console.log('React.version: ' + React.version);
+    var initializeTab;
+    if(this.props.initializeTab){
+      initializeTab = <Tab className="newEndpointTab" label='Initialize' style={this.data.style.tab} onActive={ this.onNewTab } value={1}>
+      <CardText>
+        <RaisedButton primary={true} label="6 Nodes" onClick={this.initSixNodes } style={{width: '256px'}} /><br /><br />
+        <RaisedButton primary={true} label="12 Nodes" onClick={this.initTwelveNodes } style={{width: '256px'}} /><br /><br />
+        <RaisedButton primary={true} label="Epic Nodes" onClick={this.initEpicNodes } style={{width: '256px'}} /><br /><br />
+        <RaisedButton primary={true} label="Medicare Hospital Nodes" onClick={this.initMedicareHospitalNodes } style={{width: '256px'}} /><br /><br />
+        <RaisedButton primary={true} label="Chicago Hospital Nodes" onClick={this.initChicagoHospitalNodes } style={{width: '256px'}} /><br /><br />
+        <RaisedButton primary={true} label="Apple HealthKit Nodes" onClick={this.initAppleHealthkitNodes } style={{width: '256px'}} /><br /><br />
+      </CardText>
+     </Tab>
+    }
     return (
       <div id="endpointsPage">
         <VerticalCanvas>
@@ -112,20 +125,11 @@ export class EndpointsPage extends React.Component {
               title="Endpoints"
             />
             <CardText>
-              <Tabs id='endpointsPageTabs' default value={this.data.tabIndex} onChange={this.handleTabChange} initialSelectedIndex={1}>
-                 <Tab className="newEndpointTab" label='Initialize' style={this.data.style.tab} onActive={ this.onNewTab } value={0}>
-                  {/* <CardText>
-                    <RaisedButton primary={true} label="6 Nodes" onClick={this.initSixNodes } style={{width: '256px'}} /><br /><br />
-                    <RaisedButton primary={true} label="12 Nodes" onClick={this.initTwelveNodes } style={{width: '256px'}} /><br /><br />
-                    <RaisedButton primary={true} label="Epic Nodes" onClick={this.initEpicNodes } style={{width: '256px'}} /><br /><br />
-                    <RaisedButton primary={true} label="Medicare Hospital Nodes" onClick={this.initMedicareHospitalNodes } style={{width: '256px'}} /><br /><br />
-                    <RaisedButton primary={true} label="Chicago Hospital Nodes" onClick={this.initChicagoHospitalNodes } style={{width: '256px'}} /><br /><br />
-                    <RaisedButton primary={true} label="Apple HealthKit Nodes" onClick={this.initAppleHealthkitNodes } style={{width: '256px'}} /><br /><br />
-                  </CardText> */}
-                 </Tab>
-                 <Tab className="endpointListTab" label='Endpoints' onActive={this.handleActive} style={this.data.style.tab} value={1}>
+              <Tabs id='endpointsPageTabs' default value={this.data.tabIndex} onChange={this.handleTabChange} initialSelectedIndex={0}>
+                 <Tab className="endpointListTab" label='Endpoints' onActive={this.handleActive} style={this.data.style.tab} value={0}>
                    <EndpointTable showBarcodes={true} />
                  </Tab>
+                 { initializeTab }
              </Tabs>
 
 
@@ -140,5 +144,4 @@ export class EndpointsPage extends React.Component {
 
 
 ReactMixin(EndpointsPage.prototype, ReactMeteorData);
-
 export default EndpointsPage;

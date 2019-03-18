@@ -14,8 +14,14 @@ var SidebarElements = [{
   'to': '/endpoints',
   'href': '/endpoints'
 }];
+var AdminSidebarElements = [{
+  'primaryText': 'Endpoints',
+  'to': '/endpoints',
+  'href': '/endpoints'
+}];
 
 export { 
+  AdminSidebarElements,
   SidebarElements, 
   DynamicRoutes, 
 
