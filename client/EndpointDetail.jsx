@@ -83,51 +83,32 @@ export class EndpointDetail extends React.Component {
       <div id={this.props.id} className="endpointDetail">
         <CardText>
           <TextField
+            id='statusInput'
+            ref='status'
+            name='status'
+            floatingLabelText='Status'
+            // value={ get(this, 'data.endpoint.name[0].text', '')}
+            // onChange={ this.changeState.bind(this, 'name')}
+            fullWidth
+            /><br/>
+          <TextField
             id='nameInput'
             ref='name'
             name='name'
-            floatingLabelText='name'
-            value={ get(this, 'data.endpoint.name[0].text', '')}
+            floatingLabelText='Name'
+            // hintText='male | female | other | indeterminate | unknown'
+            // value={ get(this, 'data.endpoint.name', '')}
             onChange={ this.changeState.bind(this, 'name')}
             fullWidth
             /><br/>
           <TextField
-            id='genderInput'
-            ref='gender'
-            name='gender'
-            floatingLabelText='gender'
-            hintText='male | female | other | indeterminate | unknown'
-            value={ get(this, 'data.endpoint.gender', '')}
-            onChange={ this.changeState.bind(this, 'gender')}
-            fullWidth
-            /><br/>
-          <TextField
-            id='birthdateInput'
-            ref='birthdate'
-            name='birthdate'
-            floatingLabelText='birthdate'
-            hintText='YYYY-MM-DD'
-            value={ get(this, 'data.endpoint.birthDate', '')}
-            onChange={ this.changeState.bind(this, 'birthDate')}
-            fullWidth
-            /><br/>
-          <TextField
-            id='photoInput'
-            ref='photo'
-            name='photo'
-            floatingLabelText='photo'
-            value={ get(this, 'data.endpoint.photo[0].url', '')}
-            onChange={ this.changeState.bind(this, 'photo')}
+            id='addressInput'
+            ref='address'
+            name='address'
+            floatingLabelText='Address'
+            // value={ get(this, 'data.endpoint.address[0].url', '')}
+            // onChange={ this.changeState.bind(this, 'address')}
             floatingLabelFixed={false}
-            fullWidth
-            /><br/>
-          <TextField
-            id='mrnInput'
-            ref='mrn'
-            name='mrn'
-            floatingLabelText='medical record number'
-            value={ get(this, 'data.endpoint.identifier[0].value', '')}
-            onChange={ this.changeState.bind(this, 'mrn')}
             fullWidth
             /><br/>
         </CardText>
@@ -219,7 +200,7 @@ export class EndpointDetail extends React.Component {
       Endpoints.update({_id: Session.get('selectedEndpoint')}, {$set: endpointUpdate }, function(error, result){
         if (error) {
           if(process.env.NODE_ENV === "test") console.log("Endpoints.insert[error]", error);
-          Bert.alert(error.reason, 'danger');
+          // Bert.alert(error.reason, 'danger');
         }
         if (result) {
           HipaaLogger.logEvent({eventType: "update", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "Endpoints", recordId: Session.get('selectedEndpoint')});
@@ -227,7 +208,7 @@ export class EndpointDetail extends React.Component {
           Session.set('endpointUpsert', false);
           Session.set('selectedEndpoint', false);
           Session.set('endpointPageTabIndex', 1);
-          Bert.alert('Endpoint added!', 'success');
+          // Bert.alert('Endpoint added!', 'success');
         }
       });
     } else {
@@ -236,14 +217,14 @@ export class EndpointDetail extends React.Component {
       Endpoints.insert(endpointUpdate, function(error, result) {
         if (error) {
           if(process.env.NODE_ENV === "test")  console.log('Endpoints.insert[error]', error);
-          Bert.alert(error.reason, 'danger');
+          // Bert.alert(error.reason, 'danger');
         }
         if (result) {
           HipaaLogger.logEvent({eventType: "create", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "Endpoints", recordId: result});
           Session.set('endpointPageTabIndex', 1);
           Session.set('selectedEndpoint', false);
           Session.set('endpointUpsert', false);
-          Bert.alert('Endpoint added!', 'success');
+          // Bert.alert('Endpoint added!', 'success');
         }
       });
     }
@@ -257,7 +238,7 @@ export class EndpointDetail extends React.Component {
     Endpoints.remove({_id: Session.get('selectedEndpoint')}, function(error, result){
       if (error) {
         if(process.env.NODE_ENV === "test") console.log('Endpoints.insert[error]', error);
-        Bert.alert(error.reason, 'danger');
+        // Bert.alert(error.reason, 'danger');
       }
       if (result) {
         HipaaLogger.logEvent({eventType: "delete", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "Endpoints", recordId: Session.get('selectedEndpoint')});
@@ -265,7 +246,7 @@ export class EndpointDetail extends React.Component {
         Session.set('endpointUpsert', false);
         Session.set('endpointPageTabIndex', 1);
         Session.set('selectedEndpoint', false);
-        Bert.alert('Endpoint removed!', 'success');
+        // Bert.alert('Endpoint removed!', 'success');
       }
     });
   }

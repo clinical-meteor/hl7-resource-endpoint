@@ -1,15 +1,35 @@
-import { CardText, CardTitle, CardActions, Tab, Tabs, RaisedButton } from 'material-ui';
-import { GlassCard, Glass, VerticalCanvas } from 'meteor/clinical:glass-ui';
-
-import EndpointDetail from './EndpointDetail';
-import EndpointTable from './EndpointsTable';
-
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
 
+import { RaisedButton } from 'material-ui';
+
+import { 
+  CssBaseline,
+  Grid, 
+  Container,
+  Divider,
+  Card,
+  CardHeader,
+  CardContent,
+  Button,
+  Tab, 
+  Tabs,
+  Typography,
+  Box
+} from '@material-ui/core';
+
+import EndpointDetail from './EndpointDetail';
+import EndpointTable from './EndpointsTable';
+
+
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import { get } from 'lodash';
+
 
 
 let defaultEndpoint = {
@@ -23,6 +43,25 @@ let defaultEndpoint = {
 };
 Session.setDefault('endpointFormData', defaultEndpoint);
 Session.setDefault('endpointSearchFilter', '');
+Session.setDefault('endpointsTabIndex', 0);
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      <Box p={3}>{children}</Box>
+    </Typography>
+  );
+}
+
 
 export class EndpointsPage extends React.Component {
   getMeteorData() {
@@ -37,7 +76,9 @@ export class EndpointsPage extends React.Component {
       tabIndex: Session.get('endpointPageTabIndex'),
       endpoint: defaultEndpoint,
       endpointSearchFilter: '',
-      currentEndpoint: null
+      currentEndpoint: null,
+      currentEndpointName: '',
+      value: Session.get('endpointsTabIndex')
     };
 
     if (Session.get('endpointFormData')) {
@@ -48,12 +89,11 @@ export class EndpointsPage extends React.Component {
     }
     if (Session.get("selectedEndpoint")) {
       data.currentEndpoint = Session.get("selectedEndpoint");
+    } else if(get(Meteor, 'settings.public.interfaces.default.channel.endpoint')){
+      data.currentEndpoint = get(Meteor, 'settings.public.interfaces.default.channel.endpoint');
+      data.currentEndpointName = get(Meteor, 'settings.public.interfaces.default.name', '');
     }
-
-    data.style = Glass.blur(data.style);
-    data.style.appbar = Glass.darkroom(data.style.appbar);
-    data.style.tab = Glass.darkroom(data.style.tab);
-
+    
     if(process.env.NODE_ENV === "test") console.log("EndpointsPage[data]", data);
     return data;
   }
@@ -104,6 +144,18 @@ export class EndpointsPage extends React.Component {
   // }
   render() {
     //console.log('React.version: ' + React.version);
+
+    let endpoints = [];
+    if(this.data.currentEndpoint){
+      endpoints.push({
+        fhirResource: 'Endpoint',
+        status: 'active', 
+        name: this.data.currentEndpointName,
+        address: this.data.currentEndpoint
+      });
+    }
+
+
     var initializeTab;
     if(this.props.initializeTab){
       initializeTab = <Tab className="newEndpointTab" label='Initialize' style={this.data.style.tab} onActive={ this.onNewTab } value={1}>
@@ -117,25 +169,33 @@ export class EndpointsPage extends React.Component {
       </CardText>
      </Tab>
     }
+    function handleChange(event, newValue) {
+      Session.set('endpointsTabIndex', newValue)
+    }
+
     return (
       <div id="endpointsPage">
-        <VerticalCanvas>
-          <GlassCard height="auto">
-            <CardTitle
-              title="Endpoints"
-            />
-            <CardText>
-              <Tabs id='endpointsPageTabs' default value={this.data.tabIndex} onChange={this.handleTabChange} initialSelectedIndex={0}>
-                 <Tab className="endpointListTab" label='Endpoints' onActive={this.handleActive} style={this.data.style.tab} value={0}>
-                   <EndpointTable showBarcodes={true} />
-                 </Tab>
-                 { initializeTab }
-             </Tabs>
-
-
-            </CardText>
-          </GlassCard>
-        </VerticalCanvas>
+        <Container>
+          <MuiThemeProvider>
+            <Card >
+                <CardHeader
+                  title="Endpoints"
+                />
+                <CardContent>
+                  <Tabs value={this.data.value} onChange={handleChange} aria-label="simple tabs example">
+                    <Tab label="Directory" />
+                    <Tab label="New" />
+                  </Tabs>
+                  <TabPanel value={this.data.value} index={0}>
+                    <EndpointTable endpoints={endpoints} />
+                  </TabPanel>
+                  <TabPanel value={this.data.value} index={1}>
+                    <EndpointDetail />
+                  </TabPanel>
+                </CardContent>
+              </Card>
+          </MuiThemeProvider>
+        </Container>
       </div>
     );
   }
