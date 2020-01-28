@@ -20,7 +20,8 @@ import {
 } from '@material-ui/core';
 
 import EndpointDetail from './EndpointDetail';
-import EndpointTable from './EndpointsTable';
+import EndpointTable from './EndpointTable';
+import StyledCard from './StyledCard';
 
 
 import { Meteor } from 'meteor/meteor';
@@ -87,12 +88,12 @@ export class EndpointsPage extends React.Component {
     if (Session.get('endpointSearchFilter')) {
       data.endpointSearchFilter = Session.get('endpointSearchFilter');
     }
-    if (Session.get("selectedEndpoint")) {
-      data.currentEndpoint = Session.get("selectedEndpoint");
-    } else if(get(Meteor, 'settings.public.interfaces.default.channel.endpoint')){
-      data.currentEndpoint = get(Meteor, 'settings.public.interfaces.default.channel.endpoint');
+    // if (Session.get("selectedEndpoint")) {
+    //   data.currentEndpoint = Session.get("selectedEndpoint");
+    // } else if(get(Meteor, 'settings.public.interfaces.default.channel.endpoint')){
+      data.currentEndpoint = get(Meteor, 'settings.public.interfaces.default.channel.endpoint', '');
       data.currentEndpointName = get(Meteor, 'settings.public.interfaces.default.name', '');
-    }
+    // }
     
     if(process.env.NODE_ENV === "test") console.log("EndpointsPage[data]", data);
     return data;
@@ -148,6 +149,7 @@ export class EndpointsPage extends React.Component {
     let endpoints = [];
     if(this.data.currentEndpoint){
       endpoints.push({
+        _id: 'Meteor.settings.default.channel',
         fhirResource: 'Endpoint',
         status: 'active', 
         name: this.data.currentEndpointName,
@@ -159,14 +161,14 @@ export class EndpointsPage extends React.Component {
     var initializeTab;
     if(this.props.initializeTab){
       initializeTab = <Tab className="newEndpointTab" label='Initialize' style={this.data.style.tab} onActive={ this.onNewTab } value={1}>
-      <CardText>
+      <CardContent>
         <RaisedButton primary={true} label="6 Nodes" onClick={this.initSixNodes } style={{width: '256px'}} /><br /><br />
         <RaisedButton primary={true} label="12 Nodes" onClick={this.initTwelveNodes } style={{width: '256px'}} /><br /><br />
         <RaisedButton primary={true} label="Epic Nodes" onClick={this.initEpicNodes } style={{width: '256px'}} /><br /><br />
         <RaisedButton primary={true} label="Medicare Hospital Nodes" onClick={this.initMedicareHospitalNodes } style={{width: '256px'}} /><br /><br />
         <RaisedButton primary={true} label="Chicago Hospital Nodes" onClick={this.initChicagoHospitalNodes } style={{width: '256px'}} /><br /><br />
         <RaisedButton primary={true} label="Apple HealthKit Nodes" onClick={this.initAppleHealthkitNodes } style={{width: '256px'}} /><br /><br />
-      </CardText>
+      </CardContent>
      </Tab>
     }
     function handleChange(event, newValue) {
@@ -177,7 +179,7 @@ export class EndpointsPage extends React.Component {
       <div id="endpointsPage">
         <Container>
           <MuiThemeProvider>
-            <Card >
+            <StyledCard >
                 <CardHeader
                   title="Endpoints"
                 />
@@ -190,10 +192,20 @@ export class EndpointsPage extends React.Component {
                     <EndpointTable endpoints={endpoints} />
                   </TabPanel>
                   <TabPanel value={this.data.value} index={1}>
-                    <EndpointDetail />
+                    <EndpointDetail 
+                      addressPlaceholder="http://localhost:3000/dstu2"
+                      actionButtonLabel="Autoscan"
+                    />
+                    <br />
+                    <br />
+                    <Card>
+                      <CardContent>
+                        Lorem ipsum
+                      </CardContent>
+                    </Card>
                   </TabPanel>
                 </CardContent>
-              </Card>
+              </StyledCard>
           </MuiThemeProvider>
         </Container>
       </div>

@@ -1,6 +1,5 @@
 import { CardActions, CardText } from 'material-ui/Card';
 import { get, has, set } from 'lodash';
-import { insertEndpoint, removeEndpointById, updateEndpoint } from 'meteor/clinical:hl7-resource-endpoint';
 
 
 import { Bert } from 'meteor/clinical:alert';
@@ -10,7 +9,7 @@ import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
 import TextField from 'material-ui/TextField';
 
-import { Endpoints } from '../lib/Endpoints';
+// import { Endpoints } from '../lib/Endpoints';
 import { Session } from 'meteor/session';
 
 
@@ -49,7 +48,9 @@ export class EndpointDetail extends React.Component {
   getMeteorData() {
     let data = {
       endpointId: false,
-      endpoint: defaultEndpoint
+      endpoint: defaultEndpoint,
+      endpointName: 'localhost',
+      endpointAddress: 'http://localhost/dstu2'
     };
 
     if (Session.get('endpointUpsert')) {
@@ -83,20 +84,11 @@ export class EndpointDetail extends React.Component {
       <div id={this.props.id} className="endpointDetail">
         <CardText>
           <TextField
-            id='statusInput'
-            ref='status'
-            name='status'
-            floatingLabelText='Status'
-            // value={ get(this, 'data.endpoint.name[0].text', '')}
-            // onChange={ this.changeState.bind(this, 'name')}
-            fullWidth
-            /><br/>
-          <TextField
             id='nameInput'
             ref='name'
             name='name'
             floatingLabelText='Name'
-            // hintText='male | female | other | indeterminate | unknown'
+            hintText={this.data.endpointName}
             // value={ get(this, 'data.endpoint.name', '')}
             onChange={ this.changeState.bind(this, 'name')}
             fullWidth
@@ -106,6 +98,7 @@ export class EndpointDetail extends React.Component {
             ref='address'
             name='address'
             floatingLabelText='Address'
+            hintText={this.data.endpointAddress}
             // value={ get(this, 'data.endpoint.address[0].url', '')}
             // onChange={ this.changeState.bind(this, 'address')}
             floatingLabelFixed={false}

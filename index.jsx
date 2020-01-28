@@ -1,7 +1,7 @@
 import React from 'react';
 
 import EndpointsPage from './client/EndpointsPage';
-import EndpointsTable from './client/EndpointsTable';
+import EndpointTable from './client/EndpointTable';
 
 import { AiOutlineApi, AiOutlineCluster, AiOutlineShareAlt } from 'react-icons/ai';
 
@@ -31,7 +31,7 @@ export {
   DynamicRoutes, 
 
   EndpointsPage,
-  EndpointsTable
+  EndpointTable
 };
 
 

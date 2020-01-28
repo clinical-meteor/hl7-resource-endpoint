@@ -1,26 +1,14 @@
 
 import { 
-  CssBaseline,
-  Grid, 
-  Container,
-  Divider,
-  Card,
-  CardHeader,
-  CardContent,
-  Tab, 
-  Tabs,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Switch
+  Switch,
+  CardHeader
 } from '@material-ui/core';
 
-
-
-// import { FlatButton, Toggle } from 'material-ui';
-// import { Table } from 'react-bootstrap';
 import { HTTP } from 'meteor/http';
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
@@ -108,20 +96,24 @@ function EndpointTable(props){
       status: '',
       address: ''
     };
+    console.log('flattenEndpoint.encounter', encounter)
     
     switch (get(encounter, 'status', 'inactive')) {
-      case 'active':
+      case 'inactive':
         result.status = false;
         break;
-      case 'inactive':
+      case 'active':
         result.status = true;        
         break;      
       default:
         break;
     }
 
+    result._id = get(encounter, '_id', '');
     result.name = get(encounter, 'name', '');
     result.address = get(encounter, 'address', '');
+
+    console.log('flattenEndpoint.result', result)
 
     return result;
   }
@@ -146,52 +138,43 @@ function EndpointTable(props){
   }
 
   if(endpointsToRender.length === 0){
-    console.log('No endpoints to render');
+    logger.trace('EndpointTable:  No endpoints to render.');
     // footer = <TableNoData noDataPadding={ props.noDataMessagePadding } />
   } else {
     for (var i = 0; i < endpointsToRender.length; i++) {
-      if(props.multiline){
-        tableRows.push(
-          <TableRow className="encounterRow" key={i} onClick={ rowClick(endpointsToRender[i]._id)} >
-            <TableCell className='status' >
-              <Switch onChange={ toggleEndpointStatus(endpointsToRender[i]._id) } checked={get(this, 'data.endpoint[i].status')} />
-            </TableCell>
-            <TableCell className='name' onClick={ rowClick(endpointsToRender[i]._id)} >{endpointsToRender[i].name }</TableCell>
-            <TableCell className='address' onClick={ rowClick(endpointsToRender[i]._id)} >{endpointsToRender[i].address}</TableCell>
-
-          </TableRow>
-        );    
-
-      } else {
-        tableRows.push(
-          <TableRow className="encounterRow" key={i} onClick={ rowClick(endpointsToRender[i]._id)} >            
-            <TableCell className='status' >
-              <Switch onChange={ toggleEndpointStatus(endpointsToRender[i]._id) } checked={get(this, 'data.endpoint[i].status')} />
-            </TableCell>
-            <TableCell className='name' onClick={ rowClick(endpointsToRender[i]._id)}  >{endpointsToRender[i].name }</TableCell>
-            <TableCell className='address' onClick={ rowClick(endpointsToRender[i]._id)}  >{endpointsToRender[i].address}</TableCell>
-
-          </TableRow>
-        );    
-      }
+      tableRows.push(
+        <TableRow className="encounterRow" key={i} >            
+          <TableCell className='status' >
+            <Switch 
+              //onChange={ toggleEndpointStatus(endpointsToRender[i]._id) } 
+              checked={get(endpointsToRender[i], 'status', false)}
+              value={"switch-" + get(endpointsToRender[i], '_id', '')}
+            />
+          </TableCell>
+          <TableCell className='name' >{get(endpointsToRender[i], 'name', '')}</TableCell>
+          <TableCell className='address' >{get(endpointsToRender[i], 'address', '')}</TableCell>
+        </TableRow>
+      );    
     }
   }
 
   return(
-    <Table size="small" aria-label="a dense table">
-      <TableHead>
-        <TableRow>
-          <TableCell className='status'>Status</TableCell>
-          <TableCell className='name'>Name</TableCell>
-          <TableCell className='address' >Address</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        { tableRows }
-      </TableBody>
-    </Table>
+    <CardHeader>
+      <Table size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <TableCell className='status'>Status</TableCell>
+            <TableCell className='name'>Name</TableCell>
+            <TableCell className='address' >Address</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          { tableRows }
+        </TableBody>
+      </Table>
+    </CardHeader>
   );
 }
 
-// ReactMixin(EndpointTable.prototype, ReactMeteorData);
+ReactMixin(EndpointTable.prototype, ReactMeteorData);
 export default EndpointTable;
