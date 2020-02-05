@@ -3,7 +3,7 @@ import React from 'react';
 import EndpointsPage from './client/EndpointsPage';
 import EndpointTable from './client/EndpointTable';
 
-import { AiOutlineApi, AiOutlineCluster, AiOutlineShareAlt } from 'react-icons/ai';
+import { AiOutlineShareAlt } from 'react-icons/ai';
 
 var DynamicRoutes = [{
   'name': 'EndpointPage',

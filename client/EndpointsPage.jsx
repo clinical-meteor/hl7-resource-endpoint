@@ -2,13 +2,8 @@ import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
 
-import { RaisedButton } from 'material-ui';
-
 import { 
-  CssBaseline,
-  Grid, 
   Container,
-  Divider,
   Card,
   CardHeader,
   CardContent,
@@ -27,10 +22,9 @@ import StyledCard from './StyledCard';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { get } from 'lodash';
-
 
 
 let defaultEndpoint = {
@@ -159,17 +153,25 @@ export class EndpointsPage extends React.Component {
 
 
     var initializeTab;
+    var initializeTabPanel;
     if(this.props.initializeTab){
-      initializeTab = <Tab className="newEndpointTab" label='Initialize' style={this.data.style.tab} onActive={ this.onNewTab } value={1}>
+      initializeTab = <Tab label="Initialize" />
+      initializeTabPanel = <TabPanel className="newEndpointTab" label='Initialize' style={this.data.style.tab} onActive={ this.onNewTab } value={1}>
       <CardContent>
-        <RaisedButton primary={true} label="6 Nodes" onClick={this.initSixNodes } style={{width: '256px'}} /><br /><br />
-        <RaisedButton primary={true} label="12 Nodes" onClick={this.initTwelveNodes } style={{width: '256px'}} /><br /><br />
-        <RaisedButton primary={true} label="Epic Nodes" onClick={this.initEpicNodes } style={{width: '256px'}} /><br /><br />
-        <RaisedButton primary={true} label="Medicare Hospital Nodes" onClick={this.initMedicareHospitalNodes } style={{width: '256px'}} /><br /><br />
-        <RaisedButton primary={true} label="Chicago Hospital Nodes" onClick={this.initChicagoHospitalNodes } style={{width: '256px'}} /><br /><br />
-        <RaisedButton primary={true} label="Apple HealthKit Nodes" onClick={this.initAppleHealthkitNodes } style={{width: '256px'}} /><br /><br />
+        <Button primary={true} onClick={this.initSixNodes } style={{width: '256px'}} >6 Nodes</Button>
+        <br /><br />
+        <Button primary={true} onClick={this.initTwelveNodes } style={{width: '256px'}} >12 Nodes</Button>
+        <br /><br />
+        <Button primary={true} onClick={this.initEpicNodes } style={{width: '256px'}} >Epic Nodes</Button>
+        <br /><br />
+        <Button primary={true} onClick={this.initMedicareHospitalNodes } style={{width: '256px'}} >Medicare Hospital Nodes</Button>
+        <br /><br />
+        <Button primary={true} onClick={this.initChicagoHospitalNodes } style={{width: '256px'}} >Chicago Hospital Nodes</Button>
+        <br /><br />
+        <Button primary={true} onClick={this.initAppleHealthkitNodes } style={{width: '256px'}} >Apple HealthKit Nodes</Button>
+        <br /><br />
       </CardContent>
-     </Tab>
+     </TabPanel>
     }
     function handleChange(event, newValue) {
       Session.set('endpointsTabIndex', newValue)
@@ -177,8 +179,8 @@ export class EndpointsPage extends React.Component {
 
     return (
       <div id="endpointsPage">
-        <Container>
-          <MuiThemeProvider>
+        {/* <Container>
+          <MuiThemeProvider> */}
             <StyledCard >
                 <CardHeader
                   title="Endpoints"
@@ -187,6 +189,7 @@ export class EndpointsPage extends React.Component {
                   <Tabs value={this.data.value} onChange={handleChange} aria-label="simple tabs example">
                     <Tab label="Directory" />
                     <Tab label="New" />
+                    { initializeTab }
                   </Tabs>
                   <TabPanel value={this.data.value} index={0}>
                     <EndpointTable endpoints={endpoints} />
@@ -196,24 +199,16 @@ export class EndpointsPage extends React.Component {
                       addressPlaceholder="http://localhost:3000/dstu2"
                       actionButtonLabel="Autoscan"
                     />
-                    <br />
-                    <br />
-                    <Card>
-                      <CardContent>
-                        Lorem ipsum
-                      </CardContent>
-                    </Card>
                   </TabPanel>
-                </CardContent>
+                  { initializeTabPanel }
+                {/* </CardContent>
               </StyledCard>
           </MuiThemeProvider>
-        </Container>
+        </Container> */}
       </div>
     );
   }
 }
-
-
 
 ReactMixin(EndpointsPage.prototype, ReactMeteorData);
 export default EndpointsPage;

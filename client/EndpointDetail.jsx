@@ -1,15 +1,25 @@
-import { CardActions, CardText } from 'material-ui/Card';
+import { 
+  CssBaseline,
+  Grid, 
+  Container,
+  Divider,
+  Card,
+  CardHeader,
+  CardContent,
+  Button,
+  Tab, 
+  Tabs,
+  Typography,
+  Box
+} from '@material-ui/core';
+import { StyledCard, PageCanvas } from 'material-fhir-ui';
+
 import { get, has, set } from 'lodash';
 
-
-import { Bert } from 'meteor/clinical:alert';
-import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
-import TextField from 'material-ui/TextField';
 
-// import { Endpoints } from '../lib/Endpoints';
 import { Session } from 'meteor/session';
 
 
@@ -82,10 +92,10 @@ export class EndpointDetail extends React.Component {
   render() {
     return (
       <div id={this.props.id} className="endpointDetail">
-        <CardText>
+        <CardContent>
           <TextField
             id='nameInput'
-            ref='name'
+            // ref='name'
             name='name'
             floatingLabelText='Name'
             hintText={this.data.endpointName}
@@ -95,16 +105,16 @@ export class EndpointDetail extends React.Component {
             /><br/>
           <TextField
             id='addressInput'
-            ref='address'
+            // ref='address'
             name='address'
             floatingLabelText='Address'
             hintText={this.data.endpointAddress}
             // value={ get(this, 'data.endpoint.address[0].url', '')}
             // onChange={ this.changeState.bind(this, 'address')}
-            floatingLabelFixed={false}
+            // floatingLabelFixed={false}
             fullWidth
             /><br/>
-        </CardText>
+        </CardContent>
         <CardActions>
           { this.determineButtons(this.data.endpointId) }
         </CardActions>
@@ -115,13 +125,13 @@ export class EndpointDetail extends React.Component {
     if (endpointId) {
       return (
         <div>
-          <RaisedButton id='saveEndpointButton' className='saveEndpointButton' label="Save" primary={true} onClick={this.handleSaveButton.bind(this)} style={{marginRight: '20px'}} />
-          <RaisedButton label="Delete" onClick={this.handleDeleteButton.bind(this)} />
+          <Button id='saveEndpointButton' className='saveEndpointButton' primary={true} onClick={this.handleSaveButton.bind(this)} style={{marginRight: '20px'}} >Save</Button>
+          <Button onClick={this.handleDeleteButton.bind(this)} >Delete</Button>
         </div>
       );
     } else {
       return(
-        <RaisedButton id='saveEndpointButton'  className='saveEndpointButton' label="Save" primary={true} onClick={this.handleSaveButton.bind(this)} />
+        <Button id='saveEndpointButton'  className='saveEndpointButton' primary={true} onClick={this.handleSaveButton.bind(this)} >Save</Button>
       );
     }
   }

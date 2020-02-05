@@ -17,7 +17,6 @@ import ReactMixin from 'react-mixin';
 //import { Endpoints } from '../../lib/Endpoints';
 import { Session } from 'meteor/session';
 import { has, get } from 'lodash';
-// import { TableNoData } from 'meteor/clinical:glass-ui';
 
 // export class EndpointTable extends React.Component {
 //   getMeteorData() {
